@@ -37,19 +37,20 @@ class filter_spellcheck extends moodle_text_filter {
     public function filter($text, array $options = array()) {
         global $CFG;
 
-        function check_word($matches) {
+        if (is_array($text)) return 'array';
+
+        $text = preg_replace_callback('/[A-z]*|<[^>]*>/', function($matches) {
             if (strpos($matches[0], '>')) {
                 return $matches[0];
             }
 
             $dictionary = pspell_new("en");
             if (!pspell_check($dictionary, $matches[0])) {
-                return '<span class="filter_spellcheck" title="check spelling">' . $matches[0] . '</span>';
+                return '<span class="filter_spellcheck" title="check spelling">' . 
+                    $matches[0] . '</span>';
             }
             return $matches[0];
-        }
-
-        $text = preg_replace_callback('/[A-z]*|<[^>]*>/', check_word, $text);
+        }, $text);
         return $text;
     }
 
