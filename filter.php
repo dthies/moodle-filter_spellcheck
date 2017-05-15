@@ -40,7 +40,9 @@ class filter_spellcheck extends moodle_text_filter {
      */
     public function filter($text, array $options = array()) {
         global $CFG;
-        filter_spellcheck::$dictionary = pspell_new("en");
+        if (empty(filter_spellcheck::$dictionary)) {
+            filter_spellcheck::$dictionary = pspell_new("en");
+        }
 
         $text = preg_replace_callback('/[A-z]*|<[^>]*>/', function($matches) {
             if (strpos($matches[0], '>')) {
