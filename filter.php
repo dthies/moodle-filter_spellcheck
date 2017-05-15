@@ -44,8 +44,9 @@ class filter_spellcheck extends moodle_text_filter {
             filter_spellcheck::$dictionary = pspell_new("en");
         }
 
-        $text = preg_replace_callback('/[A-z]*|<[^>]*>/', function($matches) {
-            if (strpos($matches[0], '>')) {
+        $rule = '/[A-z]*|<[^>]*>|&[a-z]*;/';
+        $text = preg_replace_callback($rule, function($matches) {
+            if (strpos($matches[0], '>') || strpos($matches[0], ';')) {
                 return $matches[0];
             }
 
