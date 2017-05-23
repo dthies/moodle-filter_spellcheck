@@ -44,16 +44,19 @@ class filter_spellcheck extends moodle_text_filter {
             filter_spellcheck::$dictionary = pspell_new("en");
         }
         // Create regular expression to find words to check.
-        $rule = '/[A-z]*';
+        $rule = '/[\\w\']+';
         // Exclude glossary filter links.
         $rule .= '|<a [^<]*class="glossary[^<]*<\\/a>';
         // Do not check tag attributes.
-        $rule .= '|<[^>]*>|&[a-z]*;';
+        $rule .= '|<[^>]*>|&[A-Za-z]*;';
         // Ignore TeX expressions.
-        $rule .= '|\\$\\$.*?\\$\\$';
-        $rule .= '/';
+        $rule .= '|\\$\\$[\\s\\S]*?\\$\\$';
+        $rule .= "|\\\\\\[[\\s\\S]*?\\\\\\]";
+        $rule .= "|\\\\\\([\\s\\S]*?\\\\\\)";
+        $rule .= '/u';
+
         $text = preg_replace_callback($rule, function($matches) {
-            if (!preg_match('/^[A-z]*$/', $matches[0])) {
+            if (!preg_match('/^[\\w\']+$/', $matches[0])) {
                 return $matches[0];
             }
 
