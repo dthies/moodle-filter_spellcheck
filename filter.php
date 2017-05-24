@@ -51,6 +51,8 @@ class filter_spellcheck extends moodle_text_filter {
         $rule .= '|<[^>]*>|&[A-Za-z]*;';
         // File names should not be checked.
         $rule .= '|[\\w]+\\.(mp[34av]|swf|mov|docx?|xlsx?|pptx?|od[sdt]|pdf|jpe?g|html?)';
+        // Avoid cloze token.
+        $rule .= '|qtypemultianswer[01-9\\d]+marker';
 
         // Ignore TeX expressions.
         $rule .= '|\\$\\$[\\s\\S]*?\\$\\$';
@@ -65,8 +67,8 @@ class filter_spellcheck extends moodle_text_filter {
                 return $matches[0];
             }
 
-            // Plain numbers and acronymns should not be checked.
-            if (preg_match('/^[\\d\\.\\-A-Z]+$/', $matches[0])) {
+            // Plain numbers, acronymns, and cloze question markers should be accepted.
+            if (preg_match('/^[\\d\\.\\-A-Z]+$|qtypemultianswer[\\d]+marker/', $matches[0])) {
                 return $matches[0];
             }
 
