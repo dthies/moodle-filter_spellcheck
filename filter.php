@@ -49,6 +49,9 @@ class filter_spellcheck extends moodle_text_filter {
         $rule .= '|<a [^<]*class="glossary[^<]*<\\/a>';
         // Do not check tag attributes or entities.
         $rule .= '|<[^>]*>|&[A-Za-z]*;';
+        // File names should not be checked.
+        $rule .= '|[\\w]+\\.(mp[34av]|swf|mov|docx?|xlsx?|pptx?|od[sdt]|pdf|jpe?g|html?)';
+
         // Ignore TeX expressions.
         $rule .= '|\\$\\$[\\s\\S]*?\\$\\$';
         $rule .= "|\\\\\\[[\\s\\S]*?\\\\\\]";
