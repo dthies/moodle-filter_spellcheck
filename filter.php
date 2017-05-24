@@ -62,6 +62,11 @@ class filter_spellcheck extends moodle_text_filter {
                 return $matches[0];
             }
 
+            // Plain numbers and acronymns should not be checked.
+            if (preg_match('/^[\\d\\.\\-A-Z]+$/', $matches[0])) {
+                return $matches[0];
+            }
+
             if (!pspell_check(filter_spellcheck::$dictionary, $matches[0])) {
                 return '<span class="filter_spellcheck" title="check spelling">' . 
                     $matches[0] . '</span>';
