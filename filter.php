@@ -44,7 +44,7 @@ class filter_spellcheck extends moodle_text_filter {
             filter_spellcheck::$dictionary = pspell_new("en");
         }
         // Create regular expression to find words to check excluding urls.
-        $rule = '/http[s]?:\\/\\/[^\\/\\s:]+(\\/[\\w\\.]*)*[\\?]?([=\\d\\w]*(&amp;)?)*(#[\\w]*)';
+        $rule = '/http[s]?:\\/\\/[^\\/\\s:]+(\\/[\\w\\.]*)*(\\?([=\\d\\w]*(&amp;)?)*)?(#[\\w]*)?';
         // Exclude glossary filter links.
         $rule .= '|<a [^<]*class="glossary[^<]*<\\/a>';
         // Do not check tag attributes or entities.
