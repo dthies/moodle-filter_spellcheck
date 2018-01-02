@@ -47,12 +47,15 @@ class filter_spellcheck extends moodle_text_filter {
         $rule = '/http[s]?:\\/\\/[^\\/\\s:]+(\\/[\\w\\.]*)*(\\?([=\\d\\w]*(&amp;)?)*)?(#[\\w]*)?';
         // Exclude glossary filter links.
         $rule .= '|<a [^<]*class="glossary[^<]*<\\/a>';
+
+        // Ignore anything inclosed in nolink tags.
+        $rule .= '|<nolink>.*?<\/nolink>';
+        $rule .= '|<span class="nolink">(<span.*?<\/span>|.)*?<\/span>';
+
         // Do not check tag attributes or entities.
         $rule .= '|<[^>]*>|&[A-Za-z]*;';
         // File names should not be checked.
         $rule .= '|[\\w]+\\.(mp[34av]|swf|mov|docx?|xlsx?|pptx?|od[sdt]|pdf|jpe?g|html?)';
-        // Avoid cloze token.
-        $rule .= '|qtypemultianswer[01-9\\d]+marker';
 
         // Ignore TeX expressions.
         $rule .= '|\\$\\$[\\s\\S]*?\\$\\$';
