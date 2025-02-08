@@ -21,12 +21,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace filter_spellcheck;
+
+use moodle_text_filter;
 
 /**
  * Filter to check spelling.
  */
-class filter_spellcheck extends moodle_text_filter {
+class text_filter extends moodle_text_filter {
     /**
      * Stored dictionary to be used for spelling
      */
@@ -38,7 +40,7 @@ class filter_spellcheck extends moodle_text_filter {
      * @param string $text The text to filter.
      * @param array $options The filter options.
      */
-    public function filter($text, array $options = array()) {
+    public function filter($text, array $options = []) {
         global $CFG;
         if (empty(filter_spellcheck::$dictionary)) {
             filter_spellcheck::$dictionary = pspell_new("en");
@@ -61,7 +63,7 @@ class filter_spellcheck extends moodle_text_filter {
         $rule .= '|\\$\\$[\\s\\S]*?\\$\\$';
         $rule .= "|\\\\\\[[\\s\\S]*?\\\\\\]";
         $rule .= "|\\\\\\([\\s\\S]*?\\\\\\)";
- 
+
         // Finally match and normal word.
         $rule .= '|[\\w\']+/u';
 
@@ -76,7 +78,7 @@ class filter_spellcheck extends moodle_text_filter {
             }
 
             if (!pspell_check(filter_spellcheck::$dictionary, $matches[0])) {
-                return '<span class="filter_spellcheck" title="check spelling">' . 
+                return '<span class="filter_spellcheck" title="check spelling">' .
                     $matches[0] . '</span>';
             }
             return $matches[0];

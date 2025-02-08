@@ -25,10 +25,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 // The current plugin version (Date: YYYYMMDDXX).
-$plugin->version   = 2017051500;
+$plugin->version   = 2025021000;
 // Required Moodle version.
-$plugin->requires  = 2013101800;
+$plugin->requires  = 2024100700;
 // Full name of the plugin (used for diagnostics).
 $plugin->component = 'filter_spellcheck';
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '0.1 Alpha';
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = '1.0';
