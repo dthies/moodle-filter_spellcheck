@@ -42,8 +42,8 @@ class text_filter extends moodle_text_filter {
      */
     public function filter($text, array $options = []) {
         global $CFG;
-        if (empty(filter_spellcheck::$dictionary)) {
-            filter_spellcheck::$dictionary = pspell_new("en");
+        if (empty(self::$dictionary)) {
+            self::$dictionary = pspell_new("en");
         }
         // Create regular expression to find words to check excluding urls.
         $rule = '/http[s]?:\\/\\/[^\\/\\s:]+(\\/[\\w\\.]*)*(\\?([=\\d\\w]*(&amp;)?)*)?(#[\\w]*)?';
@@ -77,7 +77,7 @@ class text_filter extends moodle_text_filter {
                 return $matches[0];
             }
 
-            if (!pspell_check(filter_spellcheck::$dictionary, $matches[0])) {
+            if (!pspell_check(self::$dictionary, $matches[0])) {
                 return '<span class="filter_spellcheck" title="check spelling">' .
                     $matches[0] . '</span>';
             }
